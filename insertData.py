@@ -6,8 +6,8 @@ from neo4j.v1 import GraphDatabase, basic_auth
 # Bolt takes IP address and bolt port listed on site
 # auth takes username and password listed on site
 driver = GraphDatabase.driver(
-    "bolt://100.25.48.12:32884", 
-    auth=basic_auth("neo4j", "cages-injection-stencils"))
+    "bolt://100.26.228.61:33188", 
+    auth=basic_auth("neo4j", "destruction-cries-majorities"))
 session = driver.session()
 
 # What are all the Organizations in Trumpworld?
