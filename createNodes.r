@@ -12,6 +12,7 @@ wines <- wineInfo %>%
 
 wineries <- wineInfo %>%
   select(variety, winery, region_1, region_2, province, designation, country)
+wineries <- wineries[!duplicated(wineries$winery)]
 
 reviewers <- wineInfo %>%
   select(variety, winery, taster_name, taster_twitter_handle, title)
