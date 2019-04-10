@@ -9,9 +9,9 @@ LOAD CSV WITH HEADERS FROM "file:///wineries.csv" AS row
 CREATE (:Winery {wineryName: row.winery, region_1: row.region_1, region_2: row.region_2, province: row.province, designation: row.designation, country: row.country});
 
 // Create reviews
-USING PERIODIC COMMIT
-LOAD CSV WITH HEADERS FROM "file:///reviews.csv" AS row
-CREATE (:Review {title: row.title, points: row.points, descriptio: row.description});
+//USING PERIODIC COMMIT
+//LOAD CSV WITH HEADERS FROM "file:///reviews.csv" AS row
+//CREATE (:Review {title: row.title, points: row.points, description: row.description});
 
 // Create reviewers
 USING PERIODIC COMMIT
