@@ -2,17 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>DS220 Wine Picker</title>
 </head>
 <body>
-{% if latest_question_list %}
-    <ul>
-    {% for question in latest_question_list %}
-        <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No polls are available.</p>
-{% endif %}
+<div style="padding-left: 20px; border: 3px pink solid; width: 50%">
+    <h1>DS220 Wine Picker Application</h1>
+        <form>
+            <ol>
+                <li>
+                    Question 1
+                    <input name="test" type="text">
+                </li>
+                <li>
+                    Question 2
+                    <select name="selection">
+                        <option value="default">test</option>
+                    </select>
+                </li>
+            </ol>
+        </form>
+</div>
 </body>
 </html>
