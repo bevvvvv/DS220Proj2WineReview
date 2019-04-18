@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
 from .models import Choice, Question
-
+from django.views.decorators.csrf import csrf_exempt
 
 class IndexView(generic.ListView):
     template_name = 'polls/index.html'
@@ -14,7 +14,8 @@ class IndexView(generic.ListView):
         return Question.objects.order_by('-pub_date')[:5]
 
 
-class WineView(generic.DetailView):
+class WineView(generic.TemplateView):
+    model = Question
     template_name = 'polls/wineresults.html'
 
 
@@ -45,3 +46,10 @@ def vote(request, question_id):
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+
+
+def pickwine(request):
+        q1 = request.POST['q1']
+        pricerange = request.POST['priceRange']
+        q3 = request.POST['q3']
+        return HttpResponseRedirect(reverse('polls:wineview', args=(q1,pricerange,q3,)))
