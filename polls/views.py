@@ -52,4 +52,4 @@ def pickwine(request):
         q1 = request.POST['q1']
         pricerange = request.POST['priceRange']
         q3 = request.POST['q3']
-        return HttpResponseRedirect(reverse('polls:wineview', args=(q1,pricerange,q3,)))
+        return HttpResponseRedirect(reverse('polls:wineresultpage', args=(q1,pricerange,q3,)))
