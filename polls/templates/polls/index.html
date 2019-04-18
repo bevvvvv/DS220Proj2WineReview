@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DS220 Wine Picker</title>
+</head>
+<style>
+    li
+    {
+        margin-top: 15px;
+    }
+</style>
+
+<body>
+{% csrf_token %}
+<div style="padding-left: 20px; border: 3px pink solid; width: 50%">
+    <h1>DS220 Wine Picker Application</h1>
+    <p><i> By Perry Tsang, Joseph Sepich, Andrew Rost, Pavel Sachivichik, Anmolika Singh, Jackie Cheung<i></p>
+        <form method="post">
+            <ol>
+                <li>
+                    Question 1
+                    <br><input name="test" type="text">
+                </li>
+                <li>
+                    Enter price range
+                    <br><select name="priceRange">
+                        <option value="under10">Under 10</option>
+
+                        <option value="between10and20">10 to 20</option>
+                    </select>
+                </li>
+                <li>
+                    Question 3
+                </li>
+            </ol>
+            <button type="submit" name="submit" value="Vote">Get me da dankest wine bby</button>
+        </form>
+    <a href="detail.html">To sample details page</a>
+</div>
+</body>
+</html>
