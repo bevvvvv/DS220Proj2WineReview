@@ -6,7 +6,7 @@ from .models import Choice, Question
 from django.views.decorators.csrf import csrf_exempt
 
 class IndexView(generic.ListView):
-    template_name = 'polls/index.html'
+    template_name = 'polls/index1.html'
     context_object_name = 'latest_question_list'
 
     def get_queryset(self):
