@@ -10,6 +10,13 @@
 
 Please note that if you are inserting a large amount of rows you may need to wait for indexing to occurr to create the relationships in a timely manner.
 
+## Running Django Python web framework
+
+1. Install django on your system via `pip install django`
+2. You can confirm an installation by running `python -m django --version` (most recent 2.2)
+3. Navigate to the git respository directory
+4. Run `python manage.py runserver`
+5. You can then access the UI via http://127.0.0.1:8000/polls/
 
 ## Working on submit button
 
