@@ -11,3 +11,8 @@
 Please note that if you are inserting a large amount of rows you may need to wait for indexing to occurr to create the relationships in a timely manner.
 
 
+## Working on submit button
+
+1. Can disable csrf by removing 'django.middleware.csrf.CsrfViewMiddleware' from settings.py
+
+
