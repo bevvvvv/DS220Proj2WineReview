@@ -2,18 +2,19 @@
 # https://neo4j.com/docs/api/python-driver/current/
 from neo4j.v1 import GraphDatabase, basic_auth
 
+
 # Below is example code from Trumpworld
 # Bolt takes IP address and bolt port listed on site
 # auth takes username and password listed on site
 driver = GraphDatabase.driver(
-    "bolt://100.26.228.61:33188", 
-    auth=basic_auth("neo4j", "destruction-cries-majorities"))
+    "bolt://localhost:7687", 
+    auth=basic_auth("neo4j", "jesus"))
 session = driver.session()
 
 # What are all the Organizations in Trumpworld?
 cypher_query = '''
-MATCH (o:Organization)
-RETURN o.name AS name LIMIT $limit
+MATCH (w:Wine)
+RETURN w.variety AS name LIMIT $limit
 '''
 
 results = session.run(cypher_query,
