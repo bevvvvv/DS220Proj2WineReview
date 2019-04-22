@@ -15,9 +15,11 @@
 {% csrf_token %}
 <div style="padding-left: 20px; border: 3px pink solid; width: 50%">
     <h1>DS220 Wine Boss Application</h1>
-    <p>Welcome to the Wine Boss!</p>
-    <p>Picking wines can be frustrating:( There are so many varieties of wine, origins, costs, flavors, and descriptions</P>
-    <p>Instead of deciding for yourself. Let us to do the thinking!</p>
+    <p>Welcome to the Wine Boss!
+        <br>Picking wines can be frustrating
+        <span style="font-weight:bold">:(</span>
+        <br>There are so many varieties of wine, origins, costs, flavors, and descriptions
+        <br>Let us to do the hard work of thinking for you!</p>
 
         <form action="{% url 'polls:wineview'%}"method="post">
             <ol>
@@ -62,7 +64,7 @@
                     What score based on the wine review should the wine have?
                 </li>
             </ol>
-            <button type="submit" name="submit" value="wineview">Get me da dankest wine bby</button>
+            <button type="submit" name="submit" value="wineview">Select Wines</button>
             <p><i> By Perry Tsang, Joseph Sepich, Andrew Rost, Pavel Sachivichik, Anmolika Singh, Jackie Cheung</i></p>
         </form>
 
