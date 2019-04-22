@@ -58,9 +58,10 @@ reviewers <- reviewers[!duplicated(reviewers$taster_name),]
 
 # list of wines (15)
 ```{r}
-wines <- unique(wineInfo$variety)
-wines <- wines[1:15]
-write.csv(wines, file = "D:\\GitRepos\\DS220Proj2WineReview\\wines.csv")
+write.csv(unqiue(wineInfo$variety), file = "D:\\GitRepos\\DS220Proj2WineReview\\wines.csv")
+write.csv(unique(wineInfo$winery), file = "D:\\GitRepos\\DS220Proj2WineReview\\wineries.csv")
+write.csv(unique(wineInfo$region_1), file = "D:\\GitRepos\\DS220Proj2WineReview\\regions.csv")
+write.csv(unique(wineInfo$country), file = "D:\\GitRepos\\DS220Proj2WineReview\\countries.csv")
 ```
 
 
