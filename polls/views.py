@@ -50,6 +50,8 @@ def vote(request, question_id):
 
 def pickwine(request):
         q1 = request.POST['q1']
-        pricerange = request.POST['priceRange']
+        q2 = request.POST['q2']
         q3 = request.POST['q3']
-        return HttpResponseRedirect(reverse('polls:wineresultpage', args=(q1,pricerange,q3,)))
+        q4 = request.POST['q4']
+        q5 = request.POST['q5']
+        return HttpResponseRedirect(reverse('polls:wineresultpage', args=(q1,q2,q3,q4,q5)))

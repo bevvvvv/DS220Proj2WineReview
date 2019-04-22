@@ -19,24 +19,24 @@
     <p>Picking wines can be frustrating:( There are so many varieties of wine, origins, costs, flavors, and descriptions</P>
     <p>Instead of deciding for yourself. Let us to do the thinking!</p>
 
-        <form method="post">
+        <form action="{% url 'polls:wineview' %}"method="post">
             <ol>
                 <li>
                     What kind of wine would you like?
-                    <br><select name="WineType">
+                    <br><select name="WineType" id="q1">
                     <option value = "RedWine"> Red Wine</option>
                     <option value = "WhiteWines">White Wine</option>
                         </select>
                 </li>
                 <li>
                     What country, region, winery should the wine be from?
-                    <br><select name = "Country">
+                    <br><select name = "Country" id ="q2">
                         <option value ="UnitedStates">United States</option>
                         </select>
-                    <br><select name = "Region">
+                    <br><select name = "Region" id="q3">
 
                         </select>
-                    <br><select name = "Winery">
+                    <br><select name = "Winery" id="q4">
 
                         </select>
 
@@ -44,7 +44,7 @@
                 </li>
                 <li>
                     Enter Price Range
-                    <br><select name="priceRange">
+                    <br><select name="priceRange" id="q5">
                         <option value="under10">Under 10</option>
                         <option value="between10and20">10 to 20</option>
                         <option value="between20and30"> 20 to 30</option>
