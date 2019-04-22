@@ -6,6 +6,7 @@ from .models import Choice, Question
 from django.views.decorators.csrf import csrf_exempt
 
 class IndexView(generic.ListView):
+    var = False
     template_name = 'polls/index1.html'
     context_object_name = 'latest_question_list'
 
@@ -49,9 +50,11 @@ def vote(request, question_id):
 
 
 def pickwine(request):
+        var = True
         q1 = request.POST['q1']
         q2 = request.POST['q2']
         q3 = request.POST['q3']
         q4 = request.POST['q4']
         q5 = request.POST['q5']
-        return HttpResponseRedirect(reverse('polls:wineresultpage', args=(q1,q2,q3,q4,q5)))
+        query = "Insert Cypher Query Here"
+        return render(request, 'polls/index1.html', {'results':var,'q1':q1, 'q2':q2, 'q3':q3, 'q4':q4,'q5':q5})
