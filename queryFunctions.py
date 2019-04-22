@@ -27,7 +27,7 @@ def pickwine(variety, country, region, winery, price):
         '''
 
         results = session.run(cypher_query,
-        parameters={"country": q2, "region": q3, "winery": q4, "variety": q1, "lower": lower, "upper": upper})
+        parameters={"country": country, "region": region, "winery": winery, "variety": variety, "lower": lower, "upper": upper})
         
         wineries = list()
         countries = list()
@@ -51,5 +51,58 @@ def pickwine(variety, country, region, winery, price):
         records = {"wineries": wineries, "countries", countries, "regions": regions, "wines": wines, "prices": prices}
 
         return records
+
+
+def wineryDistance(wine, lowerHop, higherHop):
+  driver = GraphDatabase.driver(
+    "bolt://localhost:7687",
+    auth=basic_auth("neo4j", "jesus"))
+  session = driver.session()
+
+  cypher_query:'''
+  MATCH (w:Wine)-[:MAKES*$lower..$upper]-(h:Wine)
+  WHERE w.variety = $variety
+  WITH h.variety = wine
+  RETURN DISTINCT wine
+  '''
+
+  results = session.run(cypher_query,
+        parameters={"variety": wine, "lower": lowerHop, "upper": upperHop})
+
+  wines = list()
+
+  for record in results:
+    wines.append(record["wine"])
+
+  if len(wines) == 0:
+    wines.append("None Found")
+
+  return wines
+
+def reviewerDistance(wine, lowerHop, higherHop):
+  driver = GraphDatabase.driver(
+    "bolt://localhost:7687",
+    auth=basic_auth("neo4j", "jesus"))
+  session = driver.session()
+
+  cypher_query:'''
+  MATCH (w:Wine)-[:DESCRIBES*$lower..$upper]-(h:Wine)
+  WHERE w.variety = $variety
+  WITH h.variety = wine
+  RETURN DISTINCT wine
+  '''
+
+  results = session.run(cypher_query,
+        parameters={"variety": wine, "lower": lowerHop, "upper": upperHop})
+
+  wines = list()
+
+  for record in results:
+    wines.append(record["wine"])
+
+  if len(wines) == 0:
+    wines.append("None Found")
+
+  return wines
 
 
