@@ -2,51 +2,8 @@
 # https://neo4j.com/docs/api/python-driver/current/
 from neo4j.v1 import GraphDatabase, basic_auth
 
-
-# Below is example code from Trumpworld
-# Bolt takes IP address and bolt port listed on site
-# auth takes username and password listed on site
-driver = GraphDatabase.driver(
-    "bolt://localhost:7687", 
-    auth=basic_auth("neo4j", "jesus"))
-session = driver.session()
-
-# What are all the Organizations in Trumpworld?
-cypher_query = '''
-MATCH (w:Wine)
-RETURN w.variety AS name LIMIT $limit
-'''
-
-results = session.run(cypher_query,
-  parameters={"limit": 10})
-
-# 1 - Wine Variety
-# 2 - Country
-# 3 - Region
-# 4 - Winery
-# 5 - Price range
-cypher_query = '''
-MATCH (z:Winery)-[:MAKES]->(w:Wine)<-[d:DESCRIBES]-(r:Reviewer)
-WHERE z.wineryName = $winery AND w.variety = $variety AND r.reviewerName = $reviewer
-WITH w.variety as wine, z.wineryName as winery, r.reviewerName as reviewer
-RETURN wine, winery, reviewer
-'''
-results = session.run(cypher_query,
-  parameters={"winery": "Vega Escal", "variety": "Red Blend", "reviewer": "Roger Voss"})
-
-for record in results:
-  print(record['reviewer'])
-
-
-def pickwine(request):
-        var = True
-        q1 = request.POST['q1']
-        q2 = request.POST['q2']
-        q3 = request.POST['q3']
-        q4 = request.POST['q4']
-        q5 = request.POST['q5']
-
-        prices = q5.split(" to ")
+def pickwine(variety, country, region, winery, price):
+        prices = price.split(" to ")
         lower = int(prices[0])
         upper = int(prices[1])
         # query by current selection
@@ -66,7 +23,7 @@ def pickwine(request):
         z.country = $country AND z.region_1 = $region AND
         toInteger(w.price) >= $lower AND toInteger(w.price) <= $upper
         WITH w.variety as wine, z.wineryName as winery, w.price as price, z.country as country, z.region_1 as region
-        RETURN wine, winery, price, country, region LIMIT 10
+        RETURN wine, winery, price, country, region
         '''
 
         results = session.run(cypher_query,
@@ -91,8 +48,8 @@ def pickwine(request):
             regions.append("None Found")
             wines.append("None Found")
             prices.append("None Found")
+        records = {"wineries": wineries, "countries", countries, "regions": regions, "wines": wines, "prices": prices}
 
-        return render(request, 'polls/index1.html', {'results':var,'q1':wines[0], 'q2':countries[0], 'q3':regions[0], 'q4':wineries[0],'q5':prices[0]})
-
+        return records
 
 
