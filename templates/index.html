@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DS220 Wine Picker</title>
+</head>
+<style>
+    li
+    {
+        margin-top: 15px;
+    }
+</style>
+
+<body>
+<div style="padding-left: 20px; border: 3px pink solid; width: 50%">
+    <h1>DS220 Wine Boss Application</h1>
+    <p>Welcome to the Wine Boss!
+        <br>Picking wines can be frustrating
+        <span style="font-weight:bold">:(</span>
+        <br>There are so many varieties of wine, origins, costs, flavors, and descriptions
+        <br>Let us to do the hard work of thinking for you!</p>
+
+        <form action="{{ url }}"method="post">
+            <ol>
+                <li>
+                    What kind of wine would you like?
+                    <br><select name="q1" id="q1">
+
+                    </select>
+                </li>
+                <li>
+                    What country, region, winery should the wine be from?
+                    <br><select name = "q2" id ="q2">
+                        <option value ="UnitedStates">United States</option>
+                        <option value ="Italy">Italy</option>
+                        <option value ="France">France</option>
+                        </select>
+                    <br><select name = "q3" id="Region">
+                        <option value = "NorthEast">North East</option>
+                        </select>
+                    <br><select name = "q4" id="q4">
+                        <option value = "GuchiWine">Guchi Wine</option>
+                        </select>
+
+
+                </li>
+                <li>
+                    Enter Price Range
+                    <br><select name="q5" id="q5">
+                        <option value="under10">Under 10</option>
+                        <option value="between10and20">10 to 20</option>
+                        <option value="between20and30"> 20 to 30</option>
+                        <option value="between30and40"> 30 to 40</option>
+                        <option value="between40and50"> 50 to 60</option>
+                        <option value="between60and70"> 60 to 70</option>
+                        <option value="between70and80"> 70 to 80</option>
+                        <option value="between80and90"> 80 to 90</option>
+                        <option value="between90and100"> 90 to 100</option>
+                        </select>
+                </li>
+                <li>
+                    What score based on the wine review should the wine have?
+                </li>
+            </ol>
+            <button type="submit" name="submit" value="wineview">Select Wines</button>
+            <p><i> By Perry Tsang, Joseph Sepich, Andrew Rost, Pavel Sachivichik, Anmolika Singh, Jackie Cheung</i></p>
+        </form>
+
+</div>
+{% if results %}
+    <div>
+        Your answer for q1 is: {{q1}}
+        Your answer for q2 is: {{q2}}
+        Your answer for q3 is: {{q3}}
+        Your answer for q4 is: {{q4}}
+        Your answer for q5 is: {{q5}}
+    </div>
+{% endif %}
+</body>
+</html>
