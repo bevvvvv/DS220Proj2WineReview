@@ -4,6 +4,9 @@ from django.urls import reverse
 from django.views import generic
 from .models import Choice, Question
 from django.views.decorators.csrf import csrf_exempt
+from neo4j.v1 import GraphDatabase, basic_auth
+
+import logging
 
 class IndexView(generic.ListView):
     var = False
@@ -56,5 +59,39 @@ def pickwine(request):
         q3 = request.POST['q3']
         q4 = request.POST['q4']
         q5 = request.POST['q5']
-        query = "Insert Cypher Query Here"
-        return render(request, 'polls/index1.html', {'results':var,'q1':q1, 'q2':q2, 'q3':q3, 'q4':q4,'q5':q5})
+
+        prices = q5.split(" to ")
+        lower = int(prices[0])
+        upper = int(prices[1])
+        # query by current selection
+        driver = GraphDatabase.driver(
+            "bolt://localhost:7687", 
+            auth=basic_auth("neo4j", "jesus"))
+        session = driver.session()
+
+        # 1 - Wine Variety
+        # 2 - Country
+        # 3 - Region
+        # 4 - Winery
+        # 5 - Price range
+        cypher_query = '''
+        MATCH (z:Winery)-[:MAKES]->(w:Wine)<-[d:DESCRIBES]-(r:Reviewer)
+        WHERE z.wineryName = $winery AND w.variety = $variety AND
+        z.country = $country AND z.region = $region AND
+        toInteger(w.price) >= $lower AND toInteger(w.price) <= $upper
+        WITH w.variety as wine, z.wineryName as winery
+        RETURN wine, winery LIMIT 1
+        '''
+
+        results = session.run(cypher_query,
+        parameters={"country": q2, "region": q3, "winery": q4, "variety": q1, "lower": lower, "upper": upper})
+        
+        records = list()
+
+        for record in results:
+            records.append(record["winery"])
+
+        if len(records) == 0:
+            records.append("None found")
+
+        return render(request, 'polls/index1.html', {'results':var,'q1':q1, 'q2':q2, 'q3':q3, 'q4':records[0],'q5':q5})

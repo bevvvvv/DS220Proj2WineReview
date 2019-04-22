@@ -20,5 +20,21 @@ RETURN w.variety AS name LIMIT $limit
 results = session.run(cypher_query,
   parameters={"limit": 10})
 
+# 1 - Wine Variety
+# 2 - Country
+# 3 - Region
+# 4 - Winery
+# 5 - Price range
+cypher_query = '''
+MATCH (z:Winery)-[:MAKES]->(w:Wine)<-[d:DESCRIBES]-(r:Reviewer)
+WHERE z.wineryName = $winery AND w.variety = $variety AND r.reviewerName = $reviewer
+WITH w.variety as wine, z.wineryName as winery, r.reviewerName as reviewer
+RETURN wine, winery, reviewer
+'''
+results = session.run(cypher_query,
+  parameters={"winery": "Vega Escal", "variety": "Red Blend", "reviewer": "Roger Voss"})
+
 for record in results:
-  print(record['name'])
+  print(record['reviewer'])
+
+

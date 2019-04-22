@@ -5,7 +5,7 @@ library(mdsr)
 
 
 wineInfo <- fread(file = "D:\\GitRepos\\DS220Proj2WineReview\\winemag-data-130k-v2.csv")
-wineInfo <- wineInfo[1:250,]
+wineInfo <- wineInfo[1:10000,]
 wineInfo[taster_name %in% c(""),10] <- "Unknown"
 
 wines <- wineInfo %>%
