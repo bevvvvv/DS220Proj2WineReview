@@ -77,21 +77,33 @@ def pickwine(request):
         cypher_query = '''
         MATCH (z:Winery)-[:MAKES]->(w:Wine)<-[d:DESCRIBES]-(r:Reviewer)
         WHERE z.wineryName = $winery AND w.variety = $variety AND
-        z.country = $country AND z.region = $region AND
+        z.country = $country AND z.region_1 = $region AND
         toInteger(w.price) >= $lower AND toInteger(w.price) <= $upper
-        WITH w.variety as wine, z.wineryName as winery
-        RETURN wine, winery LIMIT 1
+        WITH w.variety as wine, z.wineryName as winery, w.price as price, z.country as country, z.region_1 as region
+        RETURN wine, winery, price, country, region LIMIT 10
         '''
 
         results = session.run(cypher_query,
         parameters={"country": q2, "region": q3, "winery": q4, "variety": q1, "lower": lower, "upper": upper})
         
-        records = list()
+        wineries = list()
+        countries = list()
+        regions = list()
+        wines = list()
+        prices = list()
 
         for record in results:
-            records.append(record["winery"])
+            wineries.append(record["winery"])
+            countries.append(record["country"])
+            regions.append(record["region"])
+            wines.append(record["wine"])
+            prices.append(record["price"])
 
-        if len(records) == 0:
-            records.append("None found")
+        if len(wineries) == 0:
+            wineries.append("None Found")
+            countries.append("None Found")
+            regions.append("None Found")
+            wines.append("None Found")
+            prices.append("None Found")
 
-        return render(request, 'polls/index1.html', {'results':var,'q1':q1, 'q2':q2, 'q3':q3, 'q4':records[0],'q5':q5})
+        return render(request, 'polls/index1.html', {'results':var,'q1':wines[0], 'q2':countries[0], 'q3':regions[0], 'q4':wineries[0],'q5':prices[0]})
