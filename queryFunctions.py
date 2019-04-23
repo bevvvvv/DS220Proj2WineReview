@@ -91,23 +91,44 @@ def wineryDistance(wine, lowerHop, higherHop):
     auth=basic_auth("neo4j", "jesus"))
   session = driver.session()
 
-  cypher_query:'''
-  MATCH (w:Wine)-[:MAKES*$lower..$upper]-(h:Wine)
+  cypher_query = '''
+  MATCH (w:Wine)-[:MAKES*$lower.. $upper ]-(h:Wine)<-[:MAKES]-(z:Winery)
   WHERE w.variety = $variety
-  WITH h.variety = wine
-  RETURN DISTINCT wine LIMIT 50
-  '''
+  WITH h.variety as wine, h.price as price, z.wineryName as winery, z.country as country, z.region_1 as region
+  RETURN DISTINCT wine, price, winery, country, region LIMIT 50
+  ''' 
 
   results = session.run(cypher_query,
         parameters={"variety": wine, "lower": lowerHop, "upper": higherHop})
 
+  wineries = list()
+  countries = list()
+  regions = list()
   wines = list()
+  prices = list()
+  scores = list()
+  reviewers = list()
+  descriptions = list()
 
   for record in results:
     wines.append(record["wine"])
+    wineries.append(record["winery"])
+    countries.append(record["country"])
+    regions.append(record["region"])
+    prices.append(record["price"])
+    scores.append("NA")
+    reviewers.append("NA")
+    descriptions.append("NA")
 
   if len(wines) == 0:
+    wineries.append("None Found")
+    countries.append("None Found")
+    regions.append("None Found")
     wines.append("None Found")
+    prices.append("None Found")
+    scores.append("None Found")
+    reviewers.append("None Found")
+    descriptions.append("None Found")
 
   return wines
 
@@ -117,23 +138,44 @@ def reviewerDistance(wine, lowerHop, higherHop):
     auth=basic_auth("neo4j", "jesus"))
   session = driver.session()
 
-  cypher_query:'''
-  MATCH (w:Wine)-[:DESCRIBES*$lower..$upper]-(h:Wine)
+  cypher_query = '''
+  MATCH (w:Wine)-[:DESCRIBES*$lower..$upper]-(h:Wine)<-[d:DESCRIBES]-(r:Reviewer)
   WHERE w.variety = $variety
-  WITH h.variety = wine
+  WITH h.variety = wine, h.price as price, r.reviewerName as reviewer, d.points as score, d.description as description
   RETURN DISTINCT wine LIMIT 50
   '''
 
   results = session.run(cypher_query,
         parameters={"variety": wine, "lower": lowerHop, "upper": higherHop})
 
+  wineries = list()
+  countries = list()
+  regions = list()
   wines = list()
+  prices = list()
+  scores = list()
+  reviewers = list()
+  descriptions = list()
 
   for record in results:
     wines.append(record["wine"])
+    wineries.append("NA")
+    countries.append("NA")
+    regions.append("NA")
+    prices.append(record["price"])
+    scores.append(record["score"])
+    reviewers.append(record["reviewer"])
+    descriptions.append(record["description"])
 
   if len(wines) == 0:
     wines.append("None Found")
+    wineries.append("None Found")
+    countries.append("None Found")
+    regions.append("None Found")
+    prices.append("None Found")
+    scores.append("None Found")
+    reviewers.append("None Found")
+    descriptions.append("None Found")
 
   return wines
 

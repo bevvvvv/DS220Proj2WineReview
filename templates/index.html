@@ -23,13 +23,39 @@
         <form action="{{ url }}"method="post">
             <ol>
                 <li>
+                Choose a query type :
+                <br><input type="radio" name="queries" value="filter" checked>Selection Form</input>
+                <br><input type="radio" name="queries" value="dist">Associated Wineries</input>
+                <br><input type="radio" name="queries" value="rdist">Associated Reviewer</input>
+                </li>
+                <li>
+                <h3>Distance Query</h3>
+                Low Relationship Distance
+                <select name="low">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        </select>
+                High Relationship Distance
+                <select name="high">
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        </select>
+                </li>
+                <li>
+                <h3>Filter Query</h3>
                 What parameters should we use?
                 <br><input type="checkbox" name="params" value="variety" checked>Wine Type</input>
-                <br><input type="checkbox" name="params" value="country" checked>Country of Origin</input>
-                <br><input type="checkbox" name="params" value="region" checked>Region of Origin</input>
-                <br><input type="checkbox" name="params" value="winery" checked>Winery of Origin</input>
-                <br><input type="checkbox" name="params" value="price" checked>Price of Wine</input>
-                <br><input type="checkbox" name="params" value="score" checked>Rating of Wine</input>
+                <br><input type="checkbox" name="params" value="country">Country of Origin</input>
+                <br><input type="checkbox" name="params" value="region">Region of Origin</input>
+                <br><input type="checkbox" name="params" value="winery">Winery of Origin</input>
+                <br><input type="checkbox" name="params" value="price">Price of Wine</input>
+                <br><input type="checkbox" name="params" value="score">Rating of Wine</input>
                 </li>
                 <li>
                     What kind of wine would you like?
