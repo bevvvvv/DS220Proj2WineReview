@@ -12,6 +12,11 @@ regions = sorted(pd.read_csv('regions.csv')['x'].dropna().tolist())
 @app.route('/', methods=['POST', 'GET'])
 def poll():
     if request.method == 'POST':
-        return render_template('results.html', q1=request.data)
+        return render_template('results.html',
+            q1=request.form.get("wineType"),
+            q2=request.form.get("country"),
+            q3=request.form.get("region"),
+            q4=request.form.get("winery"),
+            q5=request.form.get("q5"))
 
     return render_template('index.html', wineTypes=wineTypes, countries=countries, wineries=wineries, regions=regions)
