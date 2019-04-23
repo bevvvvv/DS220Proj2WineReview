@@ -92,7 +92,9 @@ def wineryDistance(wine, lowerHop, higherHop):
   session = driver.session()
 
   cypher_query = '''
-  MATCH (w:Wine)-[:MAKES*$lower.. $upper ]-(h:Wine)<-[:MAKES]-(z:Winery)
+  MATCH (w:Wine)-[:MAKES*
+  '''+ str(lowerHop) + '..' +str(higherHop) + '''
+  ]-(h:Wine)<-[:MAKES]-(z:Winery)
   WHERE w.variety = $variety
   WITH h.variety as wine, h.price as price, z.wineryName as winery, z.country as country, z.region_1 as region
   RETURN DISTINCT wine, price, winery, country, region LIMIT 50
@@ -130,7 +132,9 @@ def wineryDistance(wine, lowerHop, higherHop):
     reviewers.append("None Found")
     descriptions.append("None Found")
 
-  return wines
+  records = {"wineries": wineries, "countries": countries, "regions": regions, "wines": wines, "prices": prices, "scores": scores, "reviewers": reviewers, "descriptions": descriptions}
+
+  return records
 
 def reviewerDistance(wine, lowerHop, higherHop):
   driver = GraphDatabase.driver(
@@ -139,10 +143,12 @@ def reviewerDistance(wine, lowerHop, higherHop):
   session = driver.session()
 
   cypher_query = '''
-  MATCH (w:Wine)-[:DESCRIBES*$lower..$upper]-(h:Wine)<-[d:DESCRIBES]-(r:Reviewer)
+  MATCH (w:Wine)-[:DESCRIBES*
+  '''+ str(lowerHop) + '..' +str(higherHop) + '''
+  ]-(h:Wine)<-[d:DESCRIBES]-(r:Reviewer)
   WHERE w.variety = $variety
-  WITH h.variety = wine, h.price as price, r.reviewerName as reviewer, d.points as score, d.description as description
-  RETURN DISTINCT wine LIMIT 50
+  WITH h.variety as wine, h.price as price, r.reviewerName as reviewer, d.points as score, d.description as description
+  RETURN DISTINCT wine, price, reviewer, score, description LIMIT 50
   '''
 
   results = session.run(cypher_query,
@@ -177,6 +183,8 @@ def reviewerDistance(wine, lowerHop, higherHop):
     reviewers.append("None Found")
     descriptions.append("None Found")
 
-  return wines
+  records = {"wineries": wineries, "countries": countries, "regions": regions, "wines": wines, "prices": prices, "scores": scores, "reviewers": reviewers, "descriptions": descriptions}
+
+  return records
 
 
