@@ -48,7 +48,7 @@ def pickwine(variety, country, region, winery, price):
             regions.append("None Found")
             wines.append("None Found")
             prices.append("None Found")
-        records = {"wineries": wineries, "countries", countries, "regions": regions, "wines": wines, "prices": prices}
+        records = {"wineries": wineries, "countries": countries, "regions": regions, "wines": wines, "prices": prices}
 
         return records
 
