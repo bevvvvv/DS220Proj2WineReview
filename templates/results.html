@@ -12,7 +12,7 @@
 </style>
 
 <body>
-<div style="padding-left: 20px; border: 3px pink solid; width: 50%">
+<div style="padding-left: 20px; border: 3px pink solid; width: 85%">
     <h1>DS220 Wine Boss Application</h1>
     <p>Welcome to the Wine Boss!
         <br>Picking wines can be frustrating
@@ -32,7 +32,7 @@
         </div>
 
         <div>Here are some wines we think you'll like
-            <table>
+            <table border="1">
                 <tr>
                     <th>Wine</th>
                     <th>Price</th>
@@ -41,6 +41,7 @@
                     <th>Region</th>
                     <th>Score</th>
                     <th>Reviewer</th>
+                    <th>Description</th>
                 </tr>
                 {% for wine in wines["wines"] %}
                     <tr>
@@ -51,6 +52,7 @@
                         <td>{{ wines["regions"][loop.index] }}</td>
                         <td>{{ wines["scores"][loop.index] }}</td>
                         <td>{{ wines["reviewers"][loop.index] }}</td>
+                        <td>{{ wines["descriptions"][loop.index] }}</td>
                     </tr>
                 {% endfor %}
             </table>

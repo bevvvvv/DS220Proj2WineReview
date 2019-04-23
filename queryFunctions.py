@@ -44,8 +44,8 @@ def pickwine(variety, country, region, winery, price, score, params):
 
 
   cypher_query = cypher_query + '''
-  WITH w.variety as wine, z.wineryName as winery, w.price as price, z.country as country, z.region_1 as region, d.points as score, r.reviewerName as reviewer
-  RETURN wine, winery, price, country, region, score, reviewer LIMIT 50
+  WITH w.variety as wine, z.wineryName as winery, w.price as price, z.country as country, z.region_1 as region, d.points as score, r.reviewerName as reviewer, d.description as description
+  RETURN wine, winery, price, country, region, score, reviewer, description LIMIT 50
   '''
 
   results = session.run(cypher_query,
@@ -58,6 +58,7 @@ def pickwine(variety, country, region, winery, price, score, params):
   prices = list()
   scores = list()
   reviewers = list()
+  descriptions = list()
 
   for record in results:
       wineries.append(record["winery"])
@@ -67,6 +68,7 @@ def pickwine(variety, country, region, winery, price, score, params):
       prices.append(record["price"])
       scores.append(record["score"])
       reviewers.append(record["reviewer"])
+      descriptions.append(record["description"])
 
   if len(wineries) == 0:
       wineries.append("None Found")
@@ -76,8 +78,9 @@ def pickwine(variety, country, region, winery, price, score, params):
       prices.append("None Found")
       scores.append("None Found")
       reviewers.append("None Found")
+      descriptions.append("None Found")
 
-  records = {"wineries": wineries, "countries": countries, "regions": regions, "wines": wines, "prices": prices, "scores": scores, "reviewers": reviewers}
+  records = {"wineries": wineries, "countries": countries, "regions": regions, "wines": wines, "prices": prices, "scores": scores, "reviewers": reviewers, "descriptions": descriptions}
 
   return records
 
