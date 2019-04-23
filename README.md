@@ -18,8 +18,5 @@ Please note that if you are inserting a large amount of rows you may need to wai
 4. Run `python manage.py runserver`
 5. You can then access the UI via http://127.0.0.1:8000/polls/
 
-## Working on submit button
-
-1. Can disable csrf by removing 'django.middleware.csrf.CsrfViewMiddleware' from settings.py
 
 

@@ -22,11 +22,33 @@
         <br>Here are your results:</p>
 
         <div>
-            <p>Your answer for q1 is: {{q1}}
-            <br>Your answer for q2 is: {{q2}}
-            <br>Your answer for q3 is: {{q3}}
-            <br>Your answer for q4 is: {{q4}}
-            <br>Your answer for q5 is: {{q5}}</p>
+            <p>Your answer for q1 is: {{ q1 }}
+            <br>Your answer for q2 is: {{ q2 }}
+            <br>Your answer for q3 is: {{ q3 }}
+            <br>Your answer for q4 is: {{ q4 }}
+            <br>Your answer for q5 is: {{ q5 }}
+            <br>Your answer for q6 is: {{ q6 }}</p>
+        </div>
+
+        <div>Here are some wines we think you'll like
+            <table>
+                <tr>
+                    <th>Wine</th>
+                    <th>Price</th>
+                    <th>Winery</th>
+                    <th>Country</th>
+                    <th>Region</th>
+                </tr>
+                {% for wine, winery, price, country, region in wines %}
+                    <tr>
+                        <td>{{ wine }}</td>
+                        <td>{{ price }}</td>
+                        <td>{{ winery }}</td>
+                        <td>{{ country }}</td>
+                        <td>{{ region }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
         </div>
 
 </div>
