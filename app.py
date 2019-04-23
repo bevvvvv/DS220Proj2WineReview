@@ -19,9 +19,11 @@ def poll():
         priceRange = request.form.get("priceRange")
         scoreRange = request.form.get("scoreRange")
 
-        wines = query.pickwine(selectType, selectCountry, selectRegion, selectWinery, priceRange, scoreRange)
+        params = request.form.getlist("params")
+
+        wines = query.pickwine(selectType, selectCountry, selectRegion, selectWinery, priceRange, scoreRange, params)
 
         return render_template('results.html', q1=selectType, q2=selectCountry, q3=selectRegion, q4=selectWinery,
-                               q5=priceRange, q6=scoreRange, wines=wines)
+                               q5=priceRange, q6=scoreRange, wines=wines, params=params)
 
     return render_template('index.html', wineTypes=wineTypes, countries=countries, wineries=wineries, regions=regions)

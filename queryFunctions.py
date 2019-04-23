@@ -2,7 +2,7 @@
 # https://neo4j.com/docs/api/python-driver/current/
 from neo4j.v1 import GraphDatabase, basic_auth
 
-def pickwine(variety, country, region, winery, price, score):
+def pickwine(variety, country, region, winery, price, score, params):
   prices = price.split(" to ")
   lower = int(prices[0])
   upper = int(prices[1])
@@ -23,22 +23,41 @@ def pickwine(variety, country, region, winery, price, score):
   # 5 - Price range
   cypher_query = '''
   MATCH (z:Winery)-[:MAKES]->(w:Wine)<-[d:DESCRIBES]-(r:Reviewer)
-  WHERE z.wineryName = $winery AND w.variety = $variety AND
-  z.country = $country AND z.region_1 = $region AND
-  toInteger(w.price) >= $lower AND toInteger(w.price) <= $upper AND
-  toInteger(d.points) >= $lowScore AND toInteger(d.points) <= $high
-  WITH w.variety as wine, z.wineryName as winery, w.price as price, z.country as country, z.region_1 as region, d.points as score
-  RETURN wine, winery, price, country, region
+  WHERE
+  '''
+
+  for i in range(len(params)):
+    if i > 0:
+      cypher_query = cypher_query + ' AND '
+    if params[i] == "variety":
+      cypher_query = cypher_query + 'w.variety = $variety'
+    elif params[i] == "country":
+      cypher_query = cypher_query + 'z.country = $country '
+    elif params[i] == "region":
+      cypher_query = cypher_query + 'z.region_1 = $region'
+    elif params[i] == "winery":
+      cypher_query = cypher_query + 'z.wineryName = $winery'
+    elif params[i] == "price":
+      cypher_query = cypher_query + 'toInteger(w.price) >= $lower AND toInteger(w.price) <= $upper'
+    elif params[i] == "score":
+      cypher_query = cypher_query + 'toInteger(d.points) >= $lowScore AND toInteger(d.points) <= $high'
+
+
+  cypher_query = cypher_query + '''
+  WITH w.variety as wine, z.wineryName as winery, w.price as price, z.country as country, z.region_1 as region, d.points as score, r.reviewerName as reviewer
+  RETURN wine, winery, price, country, region, score, reviewer LIMIT 50
   '''
 
   results = session.run(cypher_query,
-  parameters={"country": country, "region": region, "winery": winery, "variety": variety, "lower": lower, "upper": upper, "lowScore": lowScore, "highScore": highScore})
+  parameters={"country": country, "region": region, "winery": winery, "variety": variety, "lower": lower, "upper": upper, "lowScore": lowScore, "high": highScore})
   
   wineries = list()
   countries = list()
   regions = list()
   wines = list()
   prices = list()
+  scores = list()
+  reviewers = list()
 
   for record in results:
       wineries.append(record["winery"])
@@ -46,6 +65,8 @@ def pickwine(variety, country, region, winery, price, score):
       regions.append(record["region"])
       wines.append(record["wine"])
       prices.append(record["price"])
+      scores.append(record["score"])
+      reviewers.append(record["reviewer"])
 
   if len(wineries) == 0:
       wineries.append("None Found")
@@ -53,7 +74,10 @@ def pickwine(variety, country, region, winery, price, score):
       regions.append("None Found")
       wines.append("None Found")
       prices.append("None Found")
-  records = {"wineries": wineries, "countries": countries, "regions": regions, "wines": wines, "prices": prices}
+      scores.append("None Found")
+      reviewers.append("None Found")
+
+  records = {"wineries": wineries, "countries": countries, "regions": regions, "wines": wines, "prices": prices, "scores": scores, "reviewers": reviewers}
 
   return records
 
@@ -68,7 +92,7 @@ def wineryDistance(wine, lowerHop, higherHop):
   MATCH (w:Wine)-[:MAKES*$lower..$upper]-(h:Wine)
   WHERE w.variety = $variety
   WITH h.variety = wine
-  RETURN DISTINCT wine
+  RETURN DISTINCT wine LIMIT 50
   '''
 
   results = session.run(cypher_query,
@@ -94,7 +118,7 @@ def reviewerDistance(wine, lowerHop, higherHop):
   MATCH (w:Wine)-[:DESCRIBES*$lower..$upper]-(h:Wine)
   WHERE w.variety = $variety
   WITH h.variety = wine
-  RETURN DISTINCT wine
+  RETURN DISTINCT wine LIMIT 50
   '''
 
   results = session.run(cypher_query,

@@ -23,6 +23,15 @@
         <form action="{{ url }}"method="post">
             <ol>
                 <li>
+                What parameters should we use?
+                <br><input type="checkbox" name="params" value="variety" checked>Wine Type</input>
+                <br><input type="checkbox" name="params" value="country" checked>Country of Origin</input>
+                <br><input type="checkbox" name="params" value="region" checked>Region of Origin</input>
+                <br><input type="checkbox" name="params" value="winery" checked>Winery of Origin</input>
+                <br><input type="checkbox" name="params" value="price" checked>Price of Wine</input>
+                <br><input type="checkbox" name="params" value="score" checked>Rating of Wine</input>
+                </li>
+                <li>
                     What kind of wine would you like?
                     <br><select name="wineType">
                     {% for w in wineTypes %}

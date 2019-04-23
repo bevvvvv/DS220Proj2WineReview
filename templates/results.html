@@ -28,6 +28,7 @@
             <br>Your answer for q4 is: {{ q4 }}
             <br>Your answer for q5 is: {{ q5 }}
             <br>Your answer for q6 is: {{ q6 }}</p>
+            <br>Sorting by: {{params}}
         </div>
 
         <div>Here are some wines we think you'll like
@@ -38,14 +39,18 @@
                     <th>Winery</th>
                     <th>Country</th>
                     <th>Region</th>
+                    <th>Score</th>
+                    <th>Reviewer</th>
                 </tr>
-                {% for wine, winery, price, country, region in wines %}
+                {% for wine in wines["wines"] %}
                     <tr>
                         <td>{{ wine }}</td>
-                        <td>{{ price }}</td>
-                        <td>{{ winery }}</td>
-                        <td>{{ country }}</td>
-                        <td>{{ region }}</td>
+                        <td>{{ wines["prices"][loop.index] }}</td>
+                        <td>{{ wines["wineries"][loop.index] }}</td>
+                        <td>{{ wines["countries"][loop.index] }}</td>
+                        <td>{{ wines["regions"][loop.index] }}</td>
+                        <td>{{ wines["scores"][loop.index] }}</td>
+                        <td>{{ wines["reviewers"][loop.index] }}</td>
                     </tr>
                 {% endfor %}
             </table>
